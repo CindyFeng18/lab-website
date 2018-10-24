@@ -1,0 +1,1 @@
+﻿this is introduction of our lab from file "../static/file/introduction-of-lab.txt"

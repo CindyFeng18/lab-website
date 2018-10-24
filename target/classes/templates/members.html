@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+	<title>Members</title>
+	<script src="../static/js/jquery-1.11.1.min.js" type="text/javascript" th:href="@{/js/jquery-1.11.1.min.js}"></script>
+	<link rel="stylesheet" href="../static/css/style.css" type="text/css" th:src="@{/css/style.css}">
+	<script src="../static/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
+	<script src="../static/js/admin.js" th:href="@{/js/admin.js}"></script>
+	<script th:inline="javascript">
+        $(document).ready(function () {
+            var username = [[${userName}]];
+            if (username!=null){
+                $('li.user').hover(function () {
+                    $(this).find('ul.menu-down').animate({
+                        opacity:1.0,
+                        height:'toggle'
+                    },500);
+                },function () {
+                    $(this).find('ul.menu-down').animate({
+                        opacity:0,
+                        height:'toggle'
+                    },500);
+                    // $(this).find('a').removeClass('active');
+                });
+            }
+        });
+	</script>
+	<script>
+        $(function() {
+            $("#prof-lv").load("../static/file/description-of-prof-lv.txt");
+        });
+	</script>
+</head>
+<body>
+	<div id="header">
+		<a href="/index" class="logo"><img src="../static/images/logo-dica.png" alt=""></a>
+		<ul>
+			<li>
+				<a href="/index">home</a>
+			</li>
+			<li>
+				<a href="/publications">Publications</a>
+			</li>
+			<li>
+				<a href="/projects">Projects</a>
+			</li>
+			<li class="selected">
+				<a href="/members">Members</a>
+			</li>
+			<li>
+				<a href="/contact">contact</a>
+			</li>
+			<li class="user">
+				<a class="menu-title" href="/login">Log in</a>
+			</li>
+		</ul>
+	</div>
+	<div id="body">
+		<div id="blog">
+			<div>
+				<div>
+					<div class="figure">
+						<a href="#"><img src="../static/images/professor lv.png" alt=""></a>
+					</div>
+					<div class="article">
+						<h3>Group Leader - Professor Jiancheng Lv</h3>
+						<p id="prof-lv"></p>
+						<a href="http://cs.scu.edu.cn/info/1108/5360.htm" class="more" >personal page of Prof. Lv</a>
+					</div>
+				</div>
+                <hr style="margin-left: 10px;margin-right: 10px"/>
+            </div>
+        </div>
+		<div class="content">
+			<div class="section">
+				<!--博士列表-->
+				<div class="type" >Doctor</div>
+				<br/>
+				<div class="member-block">
+					<div>
+						<ul>
+							<li th:each="doctor, doctorStat:${doctors}">
+								<span th:text="${doctor.getName()}">Member 1</span>
+								<a th:href="@{'/single?id='+${doctor.getUsrName()}}" target="_blank">
+									<img th:src="@{${doctor.getPhoto()}}" alt="">
+									<!--<img src="../static/images/lab-mem1.png">-->
+								</a>
+							</li>
+							<div class="clearfix"></div>
+						</ul>
+					</div>
+				</div>
+				<!--<hr style="margin-left: 10px;margin-right: 10px"/>-->
+				<br/>
+
+				<!--硕士列表-->
+				<div class="type">Master</div>
+				<br/>
+				<div class="member-block">
+					<div>
+						<ul>
+							<li th:each="master, masterStat:${masters}">
+								<span th:text="${master.getName()}">Member 1</span>
+								<a th:href="@{'/single?id='+${master.getUsrName()}}" target="_blank">
+									<img th:src="@{${master.getPhoto()}}" alt="">
+								</a>
+							</li>
+							<div class="clearfix"></div>
+						</ul>
+					</div>
+				</div>
+				<!--<hr style="margin-left: 10px;margin-right: 10px"/>-->
+				<br/>
+
+				<!--本科生列表-->
+				<div class="type">Undergraduate</div>
+				<br/>
+				<div class="member-block">
+					<div>
+						<ul>
+							<li th:each="under, underStat:${undergraduates}">
+								<span th:text="${under.getName()}">Member 1</span>
+								<a th:href="@{'/single?id='+${under.getUsrName()}}" target="_blank">
+									<img th:src="@{${under.getPhoto()}}" alt="">
+								</a>
+							</li>
+							<div class="clearfix"></div>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+		<div>
+			<p>
+				<span>2018 &copy; Data Intelligence and Computation Art Lab</span><a href="#" >Terms of Service</a> | <a href="#" >Privacy Policy</a>
+			</p>
+		</div>
+	</div>
+	<script th:inline="javascript">
+        var userName = [[${userName}]];
+        if (userName!=null){
+            $("a.menu-title").remove();
+            // var userNameStr = userName.toString();
+            if (userName == "admin") {
+                $("li.user").append("<a href='/admin'>"+userName+"</a>\n"
+                    +
+                    "<ul class='menu-down'>\n"+
+                    "<li><a href='#' onclick='logout()'>"+
+                    "Log out"+
+                    "</a>\n"+
+                    "</li>"+
+                    "</ul> "
+				);
+			}else {
+                $("li.user").append("<a href='/usr'>"+userName+"</a>\n"
+                    +
+                    "<ul class='menu-down'>\n"+
+                    "<li><a href='#' onclick='logout()'>"+
+                    "Log out"+
+                    "</a>\n"+
+                    "</li>"+
+                    "</ul> "
+				);
+			}
+		}
+	</script>
+</body>
+</html>
